@@ -72,30 +72,30 @@ def drawGrid(surface):
             else:
                 pygame.draw.rect(surface, color_2, next_rect)
 
-def main():
-    pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    # creating a name for your game
-    pygame.display.set_caption("Retro Snake Game")
-    # creating a clock/ framerate
-    clock = pygame.time.Clock()
+pygame.init()
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+# creating a name for your game
+pygame.display.set_caption("Retro Snake Game")
+# creating a clock/ framerate
+clock = pygame.time.Clock()
 
-    surface_width_height = screen.get_size()
-    surface = pygame.Surface(surface_width_height)
-    drawGrid(surface)
+surface_width_height = screen.get_size()
+surface = pygame.Surface(surface_width_height)
+drawGrid(surface)
+
+snake = snake()
+food = food()
 
 
-    while True:
-        # Event loop (checking for player input)
-        for event in pygame.event.get():
-            # gets all of the "events" in pygame
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
+while True:
+    # Event loop (checking for player input)
+    for event in pygame.event.get():
+        # gets all of the "events" in pygame
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
 
-        # Draw all of our elements! (like the draw function in trinket)
-        screen.blit(surface, (0, 0))
-        pygame.display.update()  # This will update the screen to the player!
-        clock.tick(60) # like our framerate in trinket! tells pygame to to do this while true loop 60 times per second
-
-main()
+    # Draw all of our elements! (like the draw function in trinket)
+    screen.blit(surface, (0, 0))
+    pygame.display.update()  # This will update the screen to the player!
+    clock.tick(60) # like our framerate in trinket! tells pygame to to do this while true loop 60 times per second
