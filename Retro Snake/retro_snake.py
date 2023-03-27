@@ -8,15 +8,53 @@ import random
 
 
 # The code for the snake and its behavior.
+# The snake is made up of it's length, a list of the coordinates
+# of its body blocks, and the direction it's heading in.
 class snake(object):
     def __init__(self):
-        pass
+        self.length = 1
+
+        # positions is a lsit tracking the coordinates (x, y) of all the
+        # body blocks of the snake. New blocks are added to the end.
+        starting_x = SCREEN_WIDTH / 2
+        starting_y = SCREEN_HEIGHT / 2
+        starting_position = (starting_x, starting_y)
+        self.positions = [starting_position]
+
+        self.direction = UP
+        self.color = (17, 24, 47)
+        self.draw(background)
 
     def get_current_position(self):
-        pass
+        return self.positions[0]
 
+    # Point represents one of the four directions the snake can turn in
     def turn(self, point):
-        pass
+        # If the snake is moving UP, we cannot turn DOWN
+        if self.direction == UP:
+            if point == DOWN:
+                return
+            else:
+                self.direction = point
+        # If the snake is moving DOWN, we cannot turn UP
+        elif self.direction == DOWN:
+            if point == UP:
+                return
+            else:
+                self.direction = point
+        # If the snake is moving LEFT, we cannot turn RIGHT
+        elif self.direction == LEFT:
+            if point == RIGHT:
+                return
+            else:
+                self.direction = point
+        # If the snake is moving RIGHT, we cannot turn LEFT
+        elif self.direction == RIGHT:
+            if point == LEFT:
+                return
+            else:
+                self.direction = point
+
 
     def move(self):
         pass
@@ -24,8 +62,10 @@ class snake(object):
     def reset(self):
         pass
 
-    def draw(self, surface):
-        pass
+    def draw(self, background):
+        for position in self.positions:
+            block = pygame.Rect(position[0], position[1], GRID_SIZE, GRID_SIZE)
+            pygame.draw.rect(background, self.color, block)
 
     def handle_keys(self):
         pass
@@ -39,7 +79,7 @@ class food(object):
     def randomize_position(self):
         pass
 
-    def draw(self, surface):
+    def draw(self, background):
         pass
 
 
@@ -59,18 +99,18 @@ RIGHT = (1, 0)
 
 
 # Function which draws the grid
-def drawGrid(surface):
+def drawGrid(background):
     for x in range(int(NUM_GRIDS_X)):
         for y in range(int (NUM_GRIDS_Y)):
             rect_x = x * GRID_SIZE
             rect_y = y * GRID_SIZE
             next_rect = pygame.Rect(rect_x, rect_y, GRID_SIZE, GRID_SIZE)
-            color_1 = (82, 148, 62)
-            color_2 = (118, 189, 96)
+            color_1 = (162, 209, 73)
+            color_2 = (170, 215, 82)
             if ((x + y) % 2 == 1):
-                pygame.draw.rect(surface, color_1, next_rect)
+                pygame.draw.rect(background, color_1, next_rect)
             else:
-                pygame.draw.rect(surface, color_2, next_rect)
+                pygame.draw.rect(background, color_2, next_rect)
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -80,8 +120,8 @@ pygame.display.set_caption("Retro Snake Game")
 clock = pygame.time.Clock()
 
 surface_width_height = screen.get_size()
-surface = pygame.Surface(surface_width_height)
-drawGrid(surface)
+background = pygame.Surface(surface_width_height)
+drawGrid(background)
 
 snake = snake()
 food = food()
@@ -96,6 +136,6 @@ while True:
             exit()
 
     # Draw all of our elements! (like the draw function in trinket)
-    screen.blit(surface, (0, 0))
+    screen.blit(background, (0, 0))
     pygame.display.update()  # This will update the screen to the player!
     clock.tick(60) # like our framerate in trinket! tells pygame to to do this while true loop 60 times per second
