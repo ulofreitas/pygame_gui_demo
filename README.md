@@ -1,1 +1,1 @@
-# retro-snake-game
+# demo
